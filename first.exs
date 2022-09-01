@@ -72,6 +72,11 @@
 # iex(21)> [new | list]
 # [0, 1, 2, 3]
 
+# iex(2)> animals = ["cat", "dog", "cow", "turducken"]
+# ["cat", "dog", "cow", "turducken"]
+# iex(3)> Enum.reverse(animals)
+# ["turducken", "cow", "dog", "cat"]
+
 # ---------- Map ----------
 
 # iex(22)> person = %{"name" => "Roberto", "age" => 56, "gender" => "Male"}
@@ -169,7 +174,66 @@
 # IO.puts "Hello, #{String.trim(name)}! You're #{String.trim(age)}? That's so old!"
 
 # get_text = &("#{&1} is going to #{&2} in #{&3}")
-# name = IO.gets "What is your name? "
-# place = IO.gets "Where are you going? "
-# vehicle = IO.gets "What is your vehicle? "
+# name = String.trim(IO.gets "What is your name? ")
+# place = String.trim(IO.gets "Where are you going? ")
+# vehicle = String.trim(IO.gets "What is your vehicle? ")
 # IO.puts get_text.(name, place, vehicle)
+
+# ----------- Enum -----------
+
+# iex(1)> cities = ["vienna", "melbourne", "osaka", "calgary", "sydney"]
+# ["vienna", "melbourne", "osaka", "calgary", "sydney"]
+# iex(2)> Enum.each(cities, &IO.puts/1)
+# vienna
+# melbourne
+# osaka
+# calgary
+# sydney
+# :ok
+# iex(3)> Enum.each(cities, &String.capitalize/1)
+# :ok
+# iex(4)> Enum.each(cities, &IO.puts/1)
+# vienna
+# melbourne
+# osaka
+# calgary
+# sydney
+# :ok
+# iex(5)> Enum.map(cities, &String.capitalize/1)
+# ["Vienna", "Melbourne", "Osaka", "Calgary", "Sydney"]
+# iex(6)>
+
+# ------- pipe operator ---------
+
+# "hello pipe operator" |> String.upcase() |> String.reverse()
+# "ROTAREPO EPIP OLLEH"
+
+# iex(9)> ["Vienna", "Melbourne", "Osaka", "Calgary", "Sydney"] |> Enum.each(&IO.puts/1)
+# Vienna
+# Melbourne
+# Osaka
+# Calgary
+# Sydney
+
+# ------ File -------
+
+# iex(1)> File.write("new_text.txt", "New file with content for testing purpose")
+# :ok
+# iex(2)> File.read("new_text.text")
+# {:error, :enoent}
+# iex(3)> File.read("new_text.txt")
+# {:ok, "New file with content for testing purpose"}
+
+# iex(4)> {:ok, contents} = File.read("new_text.txt")
+# {:ok, "New file with content for testing purpose"}
+# iex(5)> contents
+# "New file with content for testing purpose"
+# iex(6)> contents |> String.split(" ")
+# ["New", "file", "with", "content", "for", "testing", "purpose"]
+# iex(7)> contents |> String.split(" ") |> Enum.map(&String.reverse/1)
+# ["weN", "elif", "htiw", "tnetnoc", "rof", "gnitset", "esoprup"]
+
+# iex(8)> new_content = contents |> String.split(" ") |> Enum.map(&String.reverse/1)
+# ["weN", "elif", "htiw", "tnetnoc", "rof", "gnitset", "esoprup"]
+# iex(9)> File.write("new_text.txt", new_content)
+# :ok
